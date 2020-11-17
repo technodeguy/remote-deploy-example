@@ -83,6 +83,28 @@ services:
       FRONTEND_URL: http://0.0.0.0:3000
       DB_HOST: db
 
+  interim-sport-media:
+    container_name: interim-sport-media
+    build: 
+      context: ../interim-sport-media
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes:
+      - ../interim-sport-media/public/:/app/public/
+    ports:
+      - 3338:3338
+    depends_on:
+      - db
+    networks:
+      - admin-front-tier
+      - db-tier
+    env_file:
+      - ../interim-sport-media/.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3338
+      DB_HOST: db
+      
   db:
     build: ./db
     container_name: db
