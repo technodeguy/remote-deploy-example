@@ -31,3 +31,38 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: 3335
+
+  interim-sport-root-spa:
+    container_name: interim-sport-root-spa
+    build: 
+      context: ../interim-sport-root-spa
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes:
+      - ../interim-sport-root-spa/:/app/
+    ports:
+      - 3001:3001
+    env_file:
+      - ../interim-sport-root-spa/.env
+    environment:
+      API_URL: http://0.0.0.0:3333
+      REACT_APP_MESSENGER_SERVER: 0.0.0.0:3334
+      REACT_APP_MEDIA_URL: http://0.0.0.0:3338
+
+  interim-sport-root-api:
+    container_name: interim-sport-root-api
+    build: 
+      context: ../interim-sport-root-api
+      dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - ../interim-sport-root-api/:/app/
+    ports:
+      - 3333:3333
+    env_file:
+      - ../interim-sport-api/.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3333
+      APP_MEDIA_URL: http://0.0.0.0:3338
+      FRONTEND_URL: http://0.0.0.0:3000
