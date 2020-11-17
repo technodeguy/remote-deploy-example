@@ -1,24 +1,33 @@
 version: '3.7'
 services:
-  ainterim-spa:
-    container_name: interim-spa
+  interim-sport-spa:
+    container_name: interim-sport-spa
     build: 
       context: ../interim-sport-spa
       dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - ../interim-sport-spa/:/app/
     ports:
       - 3000:3000
+    env_file:
+      - ../interim-sport-spa/.env
     environment:
       PORT: 3000
-      API_URL: http://localhost:3335
-      NEXT_API_URL: ${API_URL}/api/v1
-      NEXT_MESSENGER: messenger.${NEXT_API_URL}
-      NEXT_MESSENGER_API_URL: http://${NEXT_MESSENGER}:3376/api
-      NEXT_MESSENGER_WS_URL: ws://${NEXT_MESSENGER}:3376/
-      NEXT_MESSENGER_URL: http://${NEXT_MESSENGER}:3376
-      NEXT_MESSENGER_WS_PATH: messenger-ws
-      NEXT_MEDIA_URL: media.${NEXT_API_URL}:3375
-      NEXT_FRONT_URL: https://test.interim-sport.com
-      NEXT_APP_ID_INTERCOM: vo4d8x0m
-      NEXT_GOOGLE_KEY: AIzaSyCfrd8B2HX1nDArPE5hON_QfediXrH7JVg
-      NEXT_GOOGLE_CLIENT_ID: 812768381923-mbk1qlbi4g6q2kaom0kd07jeioutf7st.apps.googleusercontent.com
+      API_URL: http://0.0.0.0:3335
 
+  interim-sport-api:
+    container_name: interim-sport-api
+    build: 
+      context: ../interim-sport-api
+      dockerfile: Dockerfile
+    command: npm run start-dev
+    volumes:
+      - ../interim-sport-api/:/app/
+    ports:
+      - 3335:3335
+    env_file:
+      - ../interim-sport-api/.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3335
