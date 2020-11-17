@@ -10,6 +10,8 @@ services:
       - ../interim-sport-spa/:/app/
     ports:
       - 3000:3000
+    networks:
+      - front-tier
     env_file:
       - ../interim-sport-spa/.env
     environment:
@@ -26,11 +28,17 @@ services:
       - ../interim-sport-api/:/app/
     ports:
       - 3335:3335
+    depends_on:
+      - db
+    networks:
+      - front-tier
+      - db-tier
     env_file:
       - ../interim-sport-api/.env
     environment:
       HOST: 0.0.0.0
       PORT: 3335
+      DB_HOST: db
 
   interim-sport-root-spa:
     container_name: interim-sport-root-spa
@@ -42,6 +50,8 @@ services:
       - ../interim-sport-root-spa/:/app/
     ports:
       - 3001:3001
+    networks:
+      - admin-front-tier
     env_file:
       - ../interim-sport-root-spa/.env
     environment:
@@ -59,10 +69,37 @@ services:
       - ../interim-sport-root-api/:/app/
     ports:
       - 3333:3333
+    depends_on:
+      - db
+    networks:
+      - admin-front-tier
+      - db-tier
     env_file:
-      - ../interim-sport-api/.env
+      - ../interim-sport-root-api/.env
     environment:
       HOST: 0.0.0.0
       PORT: 3333
       APP_MEDIA_URL: http://0.0.0.0:3338
       FRONTEND_URL: http://0.0.0.0:3000
+      DB_HOST: db
+
+  db:
+    build: ./db
+    container_name: db
+    hostname: db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    restart: always
+    # volumes:
+    #   - db-data:/var/lib/mysql
+    networks:
+      - db-tier
+
+volumes:
+  db-data:
+
+networks:
+  front-tier:
+  admin-front-tier:
+  db-tier:
