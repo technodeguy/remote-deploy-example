@@ -77,7 +77,10 @@ services:
     build: 
       context: ../interim-sport-root-api
       dockerfile: Dockerfile
-    command: npm run dev
+    command: >
+      bash -c "npm run migrate
+      && npm run seed 
+      && npm run dev"
     volumes:
       - ../interim-sport-root-api/:/app/
     ports:
