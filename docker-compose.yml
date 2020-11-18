@@ -23,14 +23,14 @@ services:
     volumes:
       - ../interim-sport-spa/:/app/
     ports:
-      - 3000:3000
+      - ${INTERIM_SPORT_SPA_PORT:-3000}:${INTERIM_SPORT_SPA_PORT:-3000}
     networks:
       - back-tier
     env_file:
       - ../interim-sport-spa/.env
     environment:
-      PORT: 3000
-      API_URL: http://0.0.0.0:3335
+      PORT: ${INTERIM_SPORT_SPA_PORT:-3000}
+      API_URL: http://0.0.0.0:${INTERIM_SPORT_API_PORT:-3335}
 
   interim-sport-api:
     container_name: interim-sport-api
@@ -41,7 +41,7 @@ services:
     volumes:
       - ../interim-sport-api/:/app/
     ports:
-      - 3335:3335
+      - ${INTERIM_SPORT_API_PORT:-3335}:${INTERIM_SPORT_API_PORT:-3335}
     depends_on:
       - db
     networks:
@@ -50,7 +50,7 @@ services:
       - ../interim-sport-api/.env
     environment:
       HOST: 0.0.0.0
-      PORT: 3335
+      PORT: ${INTERIM_SPORT_API_PORT:-3335}
       DB_HOST: db
 
   interim-sport-root-spa:
@@ -62,15 +62,15 @@ services:
     volumes:
       - ../interim-sport-root-spa/:/app/
     ports:
-      - 3001:3001
+      - ${INTERIM_SPORT_ROOT_SPA_PORT:-3001}:${INTERIM_SPORT_ROOT_SPA_PORT:-3001}
     networks:
       - back-tier
     env_file:
       - ../interim-sport-root-spa/.env
     environment:
-      API_URL: http://0.0.0.0:3333
-      REACT_APP_MESSENGER_SERVER: 0.0.0.0:3334
-      REACT_APP_MEDIA_URL: http://0.0.0.0:3338
+      API_URL: http://0.0.0.0:${INTERIM_SPORT_ROOT_API_PORT:-3333}
+      REACT_APP_MESSENGER_SERVER: 0.0.0.0:${INTERIM_SPORT_MESSENGER_PORT:-3333}
+      REACT_APP_MEDIA_URL: http://0.0.0.0:${INTERIM_SPORT_MEDIA_PORT:-3338}
 
   interim-sport-root-api:
     container_name: interim-sport-root-api
@@ -81,7 +81,7 @@ services:
     volumes:
       - ../interim-sport-root-api/:/app/
     ports:
-      - 3333:3333
+      - ${INTERIM_SPORT_ROOT_API_PORT:-3333}:${INTERIM_SPORT_ROOT_API_PORT:-3333}
     depends_on:
       - db
     networks:
@@ -90,9 +90,9 @@ services:
       - ../interim-sport-root-api/.env
     environment:
       HOST: 0.0.0.0
-      PORT: 3333
-      APP_MEDIA_URL: http://0.0.0.0:3338
-      FRONTEND_URL: http://0.0.0.0:3000
+      PORT: ${INTERIM_SPORT_ROOT_API_PORT:-3333}
+      APP_MEDIA_URL: http://0.0.0.0:${INTERIM_SPORT_MEDIA_PORT:-3338}
+      FRONTEND_URL: http://0.0.0.0:${INTERIM_SPORT_SPA_PORT:-3000}
       DB_HOST: db
 
   interim-sport-media:
@@ -104,7 +104,7 @@ services:
     volumes:
       - media_assets:/app/public/
     ports:
-      - 3338:3338
+      - ${INTERIM_SPORT_MEDIA_PORT:-3338}:${INTERIM_SPORT_MEDIA_PORT:-3338}
     depends_on:
       - db
     networks:
@@ -113,7 +113,7 @@ services:
       - ../interim-sport-media/.env
     environment:
       HOST: 0.0.0.0
-      PORT: 3338
+      PORT: ${INTERIM_SPORT_MEDIA_PORT:-3338}
       DB_HOST: db
 
   interim-sport-messenger:
@@ -123,7 +123,7 @@ services:
       dockerfile: Dockerfile
     command: npm run start
     ports:
-      - 3334:3334
+      - ${INTERIM_SPORT_MESSENGER_PORT:-3334}:${INTERIM_SPORT_MESSENGER_PORT:-3334}
     depends_on:
       - db
     networks:
@@ -132,7 +132,7 @@ services:
       - ../interim-sport-messenger/.env
     environment:
       HOST: 0.0.0.0
-      PORT: 3334
+      PORT: ${INTERIM_SPORT_MESSENGER_PORT:-3334}
       DB_HOST: db
       APP_MEDIA_URL: http://0.0.0.0:3334
       
@@ -142,7 +142,7 @@ services:
     hostname: db
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     restart: always
     volumes:
