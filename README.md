@@ -1,7 +1,34 @@
 # Interim Sport Launching instructions
 
-Install docker
-Install docker-compose 
+Use docker v19.03.12 or greater
+Use docker-compose v1.24.0 or greater 
 
-# Run
+
+### Clone repos
+
+Before running docker-compose install all necessary repos
+Run the script below: 
+```
 bash prebuild.sh
+ 
+```
+
+### Run all services
+
+After installing docker and docker-compose run all services via command:
+```
+docker-compose up -d
+
+```
+To stop and remove all previously launched containers:
+```
+docker-compose down
+ 
+```
+
+To stop and remove all previously launched containers with volumes:
+```
+docker-compose down -v
+ 
+```
+If you made any changes in configuration files (environment, nginx), run the  last command above and relaunch containers.
