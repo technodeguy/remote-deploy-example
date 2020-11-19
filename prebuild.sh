@@ -1,19 +1,36 @@
 #!/bin/sh
 
+
+nodeVersion=12.9
+defaultBranch='devV2'
+baseGitUrl="git@gitlab.com:wetelo-interim-sport/"
 frontend="interim-sport-spa"
+NVM_DIR=$HOME/.nvm
+
+source $HOME/.nvm/nvm.sh;
+
+node -v;
+(nvm install $nodeVersion);
+(nvm use $nodeVersion);
+node -v;
+
 if [ ! -d "$frontend" ]
 then
     echo "Repository $frontend does not exists."
-    echo "Cloning from git@gitlab.com:wetelo-interim-sport/$frontend.git"
-    git clone "git@gitlab.com:wetelo-interim-sport/$frontend.git"
+    echo "Cloning from $baseGitUrl$frontend.git"
+    git clone "$baseGitUrl$frontend.git";
 
    if [ -d "$frontend" ]
    then
-       cd $frontend && git checkout devV2 && cd ..
+       cd $frontend && git checkout $defaultBranch ;
+       npm i;
+       cd ..;
+
    fi
 else
     echo "Repository $frontend exists. Pass"
 fi
+
 
 api="interim-sport-api"
 if [ ! -d "$api" ]
