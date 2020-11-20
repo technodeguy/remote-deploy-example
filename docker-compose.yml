@@ -52,6 +52,8 @@ services:
       HOST: 0.0.0.0
       PORT: ${INTERIM_SPORT_API_PORT}
       DB_HOST: db
+      APP_MEDIA_URL: http://0.0.0.0:${INTERIM_SPORT_MEDIA_PORT}
+      FRONTEND_URL: http://0.0.0.0:${INTERIM_SPORT_SPA_PORT}
 
   interim-sport-root-spa:
     container_name: interim-sport-root-spa
