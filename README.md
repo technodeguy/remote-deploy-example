@@ -1,3 +1,12 @@
+# Deploy instructions
+Go to deploy folder
+Make sure bash is installed on your computer
+Run bash script with such template below:
+```
+  bash deploy_instance.sh `SERVER` `SERVICE NAME`
+```
+Where `SERVER` is staging or production, `SERVICE NAME` is name of a service (interim-sport-spa, interim-sport-api and others)
+
 # Interim Sport Launching instructions
 
 Use docker v19.03.12 or greater
