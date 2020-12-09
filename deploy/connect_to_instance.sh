@@ -13,4 +13,4 @@ fi
 source $(pwd)/global_config.sh
 echo "Connecting to $server\`s $service_name project to host $server_host...";
 
-sshpass -p $server_pass ssh $server_user@$server_host
+sshpass -p $server_pass ssh $server_user@$server_host;
