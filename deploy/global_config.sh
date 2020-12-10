@@ -7,16 +7,22 @@ else
     exit 1;
 fi
 
-server=${1}
 server_user=$SERVER_USER
 server_host=$SERVER_HOST
 server_pass=$SERVER_PASSWORD
+server=${1}
 service_name=${2}
+
+if [[ "$0" == "connect_to_instance.sh" ]]; then 
+    return;
+fi
+
 server_home=/home/$server_user
 service_home=/home/$server_user/public_html/is/${server}/$service_name
 
 git_url=git@gitlab.com:wetelo-interim-sport/${service_name}.git
 pm2_exec_path=/home/$server_user/.nvm/versions/node/v12.19.0/bin/pm2
+
 
 if [[ $server != "staging" ]] && [[ $server != "production" ]]; then
     echo "Invalid server";

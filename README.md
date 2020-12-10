@@ -1,11 +1,25 @@
 # Deploy instructions
-Go to deploy folder
-Make sure bash is installed on your computer
-Run bash script with such template below:
+Make sure bash compiler is installed on your computer<br />
+Go to `deploy` folder<br />
+```
+  cd deploy
+```
+If you just want to connect to remote server run the command: <br />
+```
+  bash connect_to_instance.sh
+```
+Run script and pass appropriate arguments with such template below<br />:
 ```
   bash deploy_instance.sh `SERVER` `SERVICE NAME`
 ```
-Where `SERVER` is staging or production, `SERVICE NAME` is name of a service (interim-sport-spa, interim-sport-api and others)
+Where `SERVER` is name of a server, allowed values: 
+`staging`, 
+`production` <br />
+`SERVICE NAME` is name of a service, allowed values: 
+`interim-sport-spa`,
+`interim-sport-api`, 
+`interim-sport-root-spa`,
+`interim-sport-root-api`<br />
 
 # Interim Sport Launching instructions
 
